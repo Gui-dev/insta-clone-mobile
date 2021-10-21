@@ -1,35 +1,51 @@
 import React from 'react'
-import { AddComment } from './AddComment'
+import { FlatList } from 'react-native'
 
 import { Author } from './Author'
 import { Comments } from './Comments'
+import { AddComment } from './AddComment'
 import { Container, Content, Image } from './style'
 
-type PostProps = {
-  email?: string
-  name?: string
+type User = {
+  email: string
+  name: string
 }
 
-export const Post = ({ email = 'fulano@email.com', name = 'gui.ts' }: PostProps) => {
+type CommentsProps = {
+  nickname: string
+  comments: Array<string>
+}
+
+type Posts = {
+  id: string
+  imageUrl: string;
+  user: User,
+  comments: CommentsProps[]
+}
+
+type PostProps = {
+  posts: Posts[]
+}
+
+export const Post = ({ posts }: PostProps) => {
   return (
     <Container>
-      <Content>
-        <Image source={
-          { uri: 'https://observatoriodocinema.uol.com.br/wp-content/uploads/2021/10/the-batman-1.webp' }
-        }/>
-        <Author />
-        <Comments />
-        <AddComment />
-      </Content>
-
-      <Content>
-        <Image source={
-          { uri: 'https://passageirodeprimeira.com/wp-content/uploads/2019/12/Conrad-Maldivas.png' }
-        }/>
-        <Author />
-        <Comments />
-        <AddComment />
-      </Content>
+      <FlatList
+        data={posts}
+        keyExtractor={ item => `${item.id}` }
+        renderItem={({ item: post }) => {
+          return (
+            <Content key={ String(post.id) }>
+              <Image source={
+                { uri: post.imageUrl }
+              }/>
+              <Author user={ post.user }/>
+              <Comments comments={ post.comments }/>
+              <AddComment />
+            </Content>
+          )
+        }}
+      />
     </Container>
   )
 }

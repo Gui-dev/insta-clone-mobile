@@ -4,16 +4,20 @@ import { Gravatar } from 'react-native-gravatar'
 
 import { Container, Nickname } from './style'
 
-type AuthorProps = {
-  email?: string
-  name?: string
+type User = {
+  email: string
+  name: string
 }
 
-export const Author = ({ email = 'fulano@email.com', name = 'gui.ts' }: AuthorProps) => {
+type AuthorProps = {
+  user: User
+}
+
+export const Author = ({ user }: AuthorProps) => {
   return (
     <Container>
       <Gravatar options={{
-        email,
+        email: user.email,
         secure: true
       }}
         style={{
@@ -23,7 +27,7 @@ export const Author = ({ email = 'fulano@email.com', name = 'gui.ts' }: AuthorPr
           borderRadius: 15
         }}
       />
-      <Nickname>{ name }</Nickname>
+      <Nickname>{ user.name }</Nickname>
     </Container>
   )
 }
