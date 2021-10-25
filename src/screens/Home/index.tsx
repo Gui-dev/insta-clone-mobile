@@ -17,6 +17,10 @@ export const Home = () => {
         {
           nickname: 'Bruce Wayne',
           comments: ['Meu comentário']
+        },
+        {
+          nickname: 'Barry Allen',
+          comments: ['Muito rápido']
         }
       ]
     },
