@@ -1,0 +1,59 @@
+import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+
+import { RootStackParamList } from './../../routes/stack.routes'
+
+import {
+  Container, Form, Input, ButtonLogin, ButtonLoginText,
+  ButtonRegister, ButtonRegisterText
+} from './style'
+
+type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'Login'>
+
+export const Login: React.FC = () => {
+  const { navigate } = useNavigation<NavigationProps>()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleLogin = () => {
+    console.log('Logado')
+  }
+
+  const handleNavigationToRegister = () => {
+    navigate('Register')
+  }
+
+  return (
+    <Container>
+      <Form>
+        <Input
+          placeholder="E-mail"
+          autoFocus
+          keyboardType="email-address"
+          value={ email }
+          onChangeText={ setEmail }
+        />
+        <Input
+          placeholder="Senha"
+          secureTextEntry={ true }
+          keyboardType="visible-password"
+          value={ password }
+          onChangeText={ setPassword }
+        />
+
+        <ButtonLogin onPress={ handleLogin }>
+          <ButtonLoginText>
+            Login
+          </ButtonLoginText>
+        </ButtonLogin>
+
+        <ButtonRegister onPress={ handleNavigationToRegister }>
+          <ButtonRegisterText>
+            Not have an account yet? Register
+          </ButtonRegisterText>
+        </ButtonRegister>
+      </Form>
+    </Container>
+  )
+}
