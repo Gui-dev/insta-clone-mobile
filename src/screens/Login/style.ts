@@ -3,10 +3,8 @@ import styled from 'styled-components/native'
 
 import { colors, fonts } from '../../styles/global'
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   flex: 1;
-  align-items: center;
-  justify-content: center;
   background-color: ${colors['gray-900']};
 `
 

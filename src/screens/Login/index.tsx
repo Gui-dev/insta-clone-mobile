@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 import { RootStackParamList } from './../../routes/stack.routes'
+import { useAuth } from '../../hooks/useAuth'
 
 import {
   Container, Form, Input, ButtonLogin, ButtonLoginText,
@@ -15,9 +16,10 @@ export const Login: React.FC = () => {
   const { navigate } = useNavigation<NavigationProps>()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const { login } = useAuth()
 
   const handleLogin = () => {
-    console.log('Logado')
+    login({ email, password })
   }
 
   const handleNavigationToRegister = () => {
