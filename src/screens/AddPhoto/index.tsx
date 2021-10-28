@@ -71,11 +71,13 @@ export const AddPhoto = () => {
   return (
     <Container>
       <Content>
-        <Title>Conpartilhe uma imagem</Title>
+        <Title>Compartilhe uma imagem</Title>
 
-        <ImageContainer>
-          <Image source={{ uri: image?.uri }}/>
-        </ImageContainer>
+        { image && (
+          <ImageContainer>
+            <Image source={{ uri: image?.uri }}/>
+          </ImageContainer>
+        ) }
 
         <ButtonActions>
           <ButtonImage onPress={ handlePickImage }>
@@ -87,15 +89,20 @@ export const AddPhoto = () => {
           </ButtonImage>
         </ButtonActions>
 
-        <Input
-          placeholder="Digite um comentário"
-          value={ comment }
-          onChangeText={ setComment }
-        />
+        { image && (
+          <>
+            <Input
+              placeholder="Digite um comentário"
+              value={ comment }
+              onChangeText={ setComment }
+            />
 
-        <ButtonSave onPress={ handleSavePhoto }>
-          <ButtonSaveText>Salvar</ButtonSaveText>
-        </ButtonSave>
+            <ButtonSave onPress={ handleSavePhoto }>
+              <ButtonSaveText>Salvar</ButtonSaveText>
+            </ButtonSave>
+          </>
+        ) }
+
       </Content>
     </Container>
   )

@@ -5,28 +5,35 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from './../../routes/stack.routes'
 
 import {
-  Container, Form, Input, ButtonLogin, ButtonLoginText,
-  ButtonRegister, ButtonRegisterText
+  Container, Form, Input, ButtonRegister, ButtonRegisterText,
+  ButtonLogin, ButtonLoginText
 } from './style'
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'Login'>
 
-export const Login: React.FC = () => {
+export const Register: React.FC = () => {
   const { navigate } = useNavigation<NavigationProps>()
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin = () => {
+  const handleRegister = () => {
     console.log('Logado')
   }
 
-  const handleNavigationToRegister = () => {
-    navigate('Register')
+  const handleNavigationToLogin = () => {
+    navigate('Login')
   }
 
   return (
     <Container>
       <Form>
+        <Input
+          placeholder="Nome"
+          autoFocus
+          value={ name }
+          onChangeText={ setName }
+        />
         <Input
           placeholder="E-mail"
           autoFocus
@@ -41,17 +48,17 @@ export const Login: React.FC = () => {
           onChangeText={ setPassword }
         />
 
-        <ButtonLogin onPress={ handleLogin }>
-          <ButtonLoginText>
-            Login
-          </ButtonLoginText>
-        </ButtonLogin>
-
-        <ButtonRegister onPress={ handleNavigationToRegister }>
+        <ButtonRegister onPress={ handleRegister }>
           <ButtonRegisterText>
-            Not have an account yet? Register
+            Register
           </ButtonRegisterText>
         </ButtonRegister>
+
+        <ButtonLogin onPress={ handleNavigationToLogin }>
+          <ButtonLoginText>
+            Already have an account? Login
+          </ButtonLoginText>
+        </ButtonLogin>
       </Form>
     </Container>
   )
