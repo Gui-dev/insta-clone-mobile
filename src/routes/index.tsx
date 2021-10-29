@@ -1,12 +1,14 @@
 import React from 'react'
 
+import { useAuth } from '../hooks/useAuth'
 import { AppRoutes } from './app.routes'
 import { StackRoutes } from './stack.routes'
 
 export const Routes = () => {
-  const user = false
+  const { user } = useAuth()
+  const login = !!user
 
-  return user
+  return login
     ? (<AppRoutes />)
     : (<StackRoutes />)
 }
