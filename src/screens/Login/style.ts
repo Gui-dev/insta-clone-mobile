@@ -4,7 +4,6 @@ import styled from 'styled-components/native'
 import { colors, fonts } from '../../styles/global'
 
 export const Container = styled.ScrollView`
-  flex: 1;
   background-color: ${colors['gray-900']};
 `
 
