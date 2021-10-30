@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Platform } from 'react-native'
+import { ActivityIndicator, Alert, Platform } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import * as ImagePicker from 'expo-image-picker'
 import { Feather } from '@expo/vector-icons'
+
+import { usePost } from '../../hooks/usePost'
+import { useAuth } from '../../hooks/useAuth'
+import { RootTabParamList } from '../../routes/app.routes'
 
 import {
   Container, Content, Title, ImageContainer, Image, ButtonActions, ButtonImage, ButtonImageText, Input,
@@ -13,9 +19,14 @@ type ImageProps = {
   base64: string | undefined
 }
 
+type NavigationProps = BottomTabNavigationProp<RootTabParamList, 'Home'>
+
 export const AddPhoto = () => {
+  const { navigate } = useNavigation<NavigationProps>()
   const [image, setImage] = useState<ImageProps>()
   const [comment, setComment] = useState('')
+  const { user } = useAuth()
+  const { addPost, loading } = usePost()
 
   useEffect(() => {
     (
@@ -64,8 +75,23 @@ export const AddPhoto = () => {
     }
   }
 
-  const handleSavePhoto = async () => {
-    Alert.alert('Imagem adicionada')
+  const handleSendPost = async () => {
+    const data = {
+      nickname: user?.name,
+      email: user?.email,
+      image: image?.uri,
+      comments: [
+        {
+          nickname: user?.name,
+          comment
+        }
+      ]
+    }
+
+    await addPost(data)
+    setImage({ uri: '', base64: '' })
+    setComment('')
+    navigate('Home')
   }
 
   return (
@@ -97,8 +123,10 @@ export const AddPhoto = () => {
               onChangeText={ setComment }
             />
 
-            <ButtonSave onPress={ handleSavePhoto }>
-              <ButtonSaveText>Salvar</ButtonSaveText>
+            <ButtonSave onPress={ handleSendPost }>
+              <ButtonSaveText>
+                { loading ? <ActivityIndicator size="large" color="#FFF"/> : 'Salvar' }
+              </ButtonSaveText>
             </ButtonSave>
           </>
         ) }

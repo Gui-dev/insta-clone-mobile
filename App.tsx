@@ -3,7 +3,7 @@ import { ActivityIndicator, StatusBar, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { Roboto_400Regular, Roboto_700Bold, useFonts } from '@expo-google-fonts/roboto'
 
-import { AuthProvider } from './src/contexts/AuthContext'
+import { ContextsProviders } from './src/contexts'
 
 import { Header } from './src/components/Header'
 import { Routes } from './src/routes'
@@ -23,12 +23,12 @@ export default function App () {
   }
 
   return (
-    <AuthProvider>
+    <ContextsProviders>
       <NavigationContainer>
         <StatusBar barStyle="light-content" backgroundColor="#0A0A0D"/>
         <Header />
         <Routes />
       </NavigationContainer>
-    </AuthProvider>
+    </ContextsProviders>
   )
 }
