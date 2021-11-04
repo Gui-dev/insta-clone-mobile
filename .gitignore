@@ -30,6 +30,10 @@ build/
 local.properties
 *.iml
 *.hprof
+/android/app/google-services.json
+
+# IOS
+/ios/instaclone/GoogleService-Info.plist
 
 # node.js
 #
