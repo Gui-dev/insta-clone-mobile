@@ -15,8 +15,7 @@ import {
 } from './style'
 
 type ImageProps = {
-  uri: string,
-  base64: string | undefined
+  uri: string
 }
 
 type NavigationProps = BottomTabNavigationProp<RootTabParamList, 'Home'>
@@ -53,8 +52,7 @@ export const AddPhoto = () => {
 
     if (!result.cancelled) {
       setImage({
-        uri: result.uri,
-        base64: result.base64
+        uri: result.uri
       })
     }
   }
@@ -63,14 +61,14 @@ export const AddPhoto = () => {
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
+      base64: true,
       aspect: [4, 3],
       quality: 1
     })
 
     if (!result.cancelled) {
       setImage({
-        uri: result.uri,
-        base64: result.base64
+        uri: result.uri
       })
     }
   }
@@ -79,7 +77,9 @@ export const AddPhoto = () => {
     const data = {
       nickname: user?.name,
       email: user?.email,
-      image: image?.uri,
+      image: {
+        uri: image?.uri
+      },
       comments: [
         {
           nickname: user?.name,
@@ -89,7 +89,7 @@ export const AddPhoto = () => {
     }
 
     await addPost(data)
-    setImage({ uri: '', base64: '' })
+    setImage({ uri: '' })
     setComment('')
     navigate('Home')
   }

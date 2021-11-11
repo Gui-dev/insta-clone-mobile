@@ -19,8 +19,6 @@ export const addPhotoService = async (imageUri: string | undefined): Promise<Pho
     const upload = await uploadBytes(newFile, uploadBlob as Blob)
     const photoUrl = await getDownloadURL(upload.ref)
 
-    console.log('PHOTO: ', photoUrl)
-
     return {
       id: upload.ref.name,
       url: photoUrl
