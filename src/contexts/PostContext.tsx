@@ -1,13 +1,26 @@
 import React, { createContext, ReactNode, useState } from 'react'
 
+import { addPostService } from '../services/addPostService'
+
 type PostProps = {
-  id: string
   nickname: string | undefined
   email: string | undefined
-  imageUrl: string | undefined
+  image: {
+    uri: string | undefined
+  }
   comments: Array<{
     nickname: string | undefined
     comment: string
+  }>
+}
+
+type PostResponse = {
+  nickname: string | undefined
+  email: string | undefined
+  imageUrl: string
+  comments: Array<{
+    nickname: string | undefined
+    comment: string | undefined
   }>
 }
 
@@ -16,7 +29,7 @@ type PostProviderProps = {
 }
 
 type PostContextProps = {
-  posts: PostProps[]
+  posts: PostResponse[]
   loading: boolean
   addPost: (data: PostProps) => Promise<void>
   addComment: (postId: string, comment: string) => Promise<void>
@@ -25,13 +38,14 @@ type PostContextProps = {
 export const PostContext = createContext({} as PostContextProps)
 
 export const PostProvider = ({ children }: PostProviderProps) => {
-  const [posts, setPosts] = useState<PostProps[]>([])
+  const [posts, setPosts] = useState<PostResponse[]>([])
   const [loading, setLoading] = useState(false)
 
   const addPost = async (data: PostProps) => {
     try {
       setLoading(true)
-      setPosts([data, ...posts])
+      const post = await addPostService(data)
+      setPosts([post, ...posts])
     } catch (error) {
       console.log(error)
     } finally {
@@ -40,28 +54,29 @@ export const PostProvider = ({ children }: PostProviderProps) => {
   }
 
   const addComment = async (postId: string, comment: string) => {
-    try {
-      const result = posts.map(post => {
-        if (post.id === postId) {
-          if (post.comments) {
-            return {
-              ...post,
-              comments: [...post.comments, { nickname: post.nickname, comment }]
-            }
-          } else {
-            return {
-              ...post,
-              comments: [{ nickname: post.nickname, comment }]
-            }
-          }
-        }
-        return post
-      })
+    console.log('Comment')
+    // try {
+    //   const result = posts.map(post => {
+    //     if (post.id === postId) {
+    //       if (post.comments) {
+    //         return {
+    //           ...post,
+    //           comments: [...post.comments, { nickname: post.nickname, comment }]
+    //         }
+    //       } else {
+    //         return {
+    //           ...post,
+    //           comments: [{ nickname: post.nickname, comment }]
+    //         }
+    //       }
+    //     }
+    //     return post
+    //   })
 
-      setPosts(result)
-    } catch (error) {
-      console.log(error)
-    }
+    //   setPosts(result)
+    // } catch (error) {
+    //   console.log(error)
+    // }
   }
 
   return (

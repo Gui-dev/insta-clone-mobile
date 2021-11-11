@@ -4,44 +4,43 @@ import { FlatList } from 'react-native'
 import { Author } from './Author'
 import { Comments } from './Comments'
 import { AddComment } from './AddComment'
+// import { usePost } from '../../hooks/usePost'
+
 import { Container, Content, Image } from './style'
 
-type User = {
-  email: string
-  name: string
+type PostResponse = {
+  nickname: string | undefined
+  email: string | undefined
+  imageUrl: string
+  comments: Array<{
+    nickname: string | undefined
+    comment: string | undefined
+  }>
 }
 
-type CommentsProps = {
-  nickname: string
-  comments: Array<string>
+type PostsProps = {
+  posts: PostResponse[]
 }
 
-type Posts = {
-  id: string
-  imageUrl: string;
-  user: User,
-  comments: CommentsProps[]
-}
+export const Post = ({ posts }: PostsProps) => {
+  // const { addComment } = usePost()
 
-type PostProps = {
-  posts: Posts[]
-}
+  const handleAddComment = async (postId: string | undefined, comment: string) => {
+    // await addComment(postId, comment)
+  }
 
-export const Post = ({ posts }: PostProps) => {
   return (
     <Container>
       <FlatList
         data={posts}
-        keyExtractor={ item => `${item.id}` }
+        keyExtractor={ item => `${item.nickname}-${new Date().getTime()}` }
         renderItem={({ item: post }) => {
           return (
-            <Content key={ String(post.id) }>
-              <Image source={
-                { uri: post.imageUrl }
-              }/>
-              <Author user={ post.user }/>
+            <Content key={ String(`${post.nickname}-${new Date().getTime()}`) }>
+              <Image source={ { uri: post.imageUrl } }/>
+              <Author user={ { name: post?.nickname, email: post?.email } }/>
               <Comments comments={ post.comments }/>
-              <AddComment />
+              <AddComment postId={ post?.nickname } onComment={ handleAddComment }/>
             </Content>
           )
         }}

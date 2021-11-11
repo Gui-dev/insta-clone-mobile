@@ -4,7 +4,6 @@ import { database } from './../services/firebase'
 import { addPhotoService } from './addPhotoService'
 
 type PostProps = {
-  id: string
   nickname: string | undefined
   email: string | undefined
   image: {
@@ -16,7 +15,17 @@ type PostProps = {
   }>
 }
 
-export const addPostService = async (data: PostProps): Promise<void> => {
+type PostResponse = {
+  nickname: string | undefined
+  email: string | undefined
+  imageUrl: string
+  comments: Array<{
+    nickname: string | undefined
+    comment: string | undefined
+  }>
+}
+
+export const addPostService = async (data: PostProps): Promise<PostResponse> => {
   try {
     const imageUri = data.image?.uri
     const photo = await addPhotoService(imageUri)
@@ -30,8 +39,9 @@ export const addPostService = async (data: PostProps): Promise<void> => {
 
     const postRef = ref(database, 'posts')
     await push(postRef, post)
+
+    return post
   } catch (error) {
-    console.log('Error: ', error)
-    // throw new Error('Erro ao criar post')
+    throw new Error('Erro ao criar post')
   }
 }
