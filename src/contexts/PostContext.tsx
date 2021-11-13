@@ -1,6 +1,8 @@
-import React, { createContext, ReactNode, useState } from 'react'
+import React, { createContext, ReactNode, useEffect, useState } from 'react'
+import { useAuth } from '../hooks/useAuth'
 
 import { addPostService } from '../services/addPostService'
+import { listPostsService } from '../services/listPostsService'
 
 type PostProps = {
   nickname: string | undefined
@@ -15,6 +17,7 @@ type PostProps = {
 }
 
 type PostResponse = {
+  id?: string
   nickname: string | undefined
   email: string | undefined
   imageUrl: string
@@ -38,8 +41,21 @@ type PostContextProps = {
 export const PostContext = createContext({} as PostContextProps)
 
 export const PostProvider = ({ children }: PostProviderProps) => {
+  const { user } = useAuth()
   const [posts, setPosts] = useState<PostResponse[]>([])
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true)
+      const postsResult = await listPostsService()
+      console.log(postsResult)
+      // setPosts(postsResult as PostResponse[])
+      setLoading(false)
+    }
+
+    loadData()
+  }, [user?.email])
 
   const addPost = async (data: PostProps) => {
     try {

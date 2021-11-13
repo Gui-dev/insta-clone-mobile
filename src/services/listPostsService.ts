@@ -2,17 +2,8 @@ import { onValue, ref } from 'firebase/database'
 
 import { database } from './firebase'
 
-// type PostsProps = Array<Record<string, {
-//   nickname: string
-//   email: string
-//   imageUrl: string
-//   comments: Array<{
-//     nickname: string | undefined
-//     comment: string | undefined
-//   }>
-// }>>
-
 type PostResponse = {
+  id: string
   nickname: string | undefined
   email: string | undefined
   imageUrl: string
@@ -29,6 +20,7 @@ export const listPostsService = async (): Promise<PostResponse[]> => {
     const result = snapshot.val()
     for (const item in result) {
       data.push({
+        id: item,
         nickname: result[item].nickname,
         email: result[item].email,
         imageUrl: result[item].imageUrl,
