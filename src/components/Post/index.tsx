@@ -4,47 +4,52 @@ import { FlatList } from 'react-native'
 import { Author } from './Author'
 import { Comments } from './Comments'
 import { AddComment } from './AddComment'
-// import { usePost } from '../../hooks/usePost'
+import { usePost } from '../../hooks/usePost'
 
-import { Container, Content, Image } from './style'
+import { LoadPage } from '../LoadPage'
+import { Container, InfoContainer, Info, Content, Image } from './style'
 
-type PostResponse = {
-  nickname: string | undefined
-  email: string | undefined
-  imageUrl: string
-  comments: Array<{
-    nickname: string | undefined
-    comment: string | undefined
-  }>
-}
+export const Post = () => {
+  const { addComment, loading, posts } = usePost()
 
-type PostsProps = {
-  posts: PostResponse[]
-}
+  const handleAddComment = async (comment: string, postId: string) => {
+    await addComment(comment, postId)
+  }
 
-export const Post = ({ posts }: PostsProps) => {
-  // const { addComment } = usePost()
+  if (loading) {
+    return <LoadPage />
+  }
 
-  const handleAddComment = async (postId: string | undefined, comment: string) => {
-    // await addComment(postId, comment)
+  if (posts.length < 1) {
+    return (
+      <InfoContainer>
+        <Info>
+          Você ainda não tem nenhum foto {'\n'}
+          Que tal compartilhar uma agora
+        </Info>
+      </InfoContainer>
+    )
   }
 
   return (
     <Container>
-      <FlatList
-        data={posts}
-        keyExtractor={ item => `${item.nickname}-${new Date().getTime()}` }
-        renderItem={({ item: post }) => {
-          return (
-            <Content key={ String(`${post.nickname}-${new Date().getTime()}`) }>
-              <Image source={ { uri: post.imageUrl } }/>
-              <Author user={ { name: post?.nickname, email: post?.email } }/>
-              <Comments comments={ post.comments }/>
-              <AddComment postId={ post?.nickname } onComment={ handleAddComment }/>
-            </Content>
-          )
-        }}
-      />
+      { posts.length > 0 && (
+        <FlatList
+          data={posts}
+          keyExtractor={ item => `${item.id}` }
+          renderItem={({ item: post }) => {
+            return (
+              <Content key={ String(`${post.id}`) }>
+                <Image source={{ uri: post.imageUrl ? post.imageUrl : '' }}/>
+                <Author user={ { name: post?.nickname, email: post?.email } }/>
+                <Comments comments={ post.comments }/>
+                {/* @ts-ignore */}
+                <AddComment postId={ post.id } onComment={ handleAddComment }/>
+              </Content>
+            )
+          }}
+        />
+      ) }
     </Container>
   )
 }
