@@ -12,7 +12,7 @@ export const AddComment = ({ postId, onComment }: AddCommentProps) => {
   const [comment, setComment] = useState('')
 
   const handleAddComment = async () => {
-    await onComment(postId, comment)
+    await onComment(comment, postId)
     setComment('')
   }
 

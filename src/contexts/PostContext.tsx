@@ -1,5 +1,6 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
+import { addCommentService } from '../services/addCommentService'
 
 import { addPostService } from '../services/addPostService'
 import { listPostsService } from '../services/listPostsService'
@@ -45,23 +46,22 @@ export const PostProvider = ({ children }: PostProviderProps) => {
   const [posts, setPosts] = useState<PostResponse[]>([])
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true)
-      const postsResult = await listPostsService()
-      console.log(postsResult)
-      // setPosts(postsResult as PostResponse[])
-      setLoading(false)
-    }
+  const loadData = async () => {
+    setLoading(true)
+    const postsResult = await listPostsService()
+    setPosts(postsResult as PostResponse[])
+    setLoading(false)
+  }
 
+  useEffect(() => {
     loadData()
-  }, [user?.email])
+  }, [])
 
   const addPost = async (data: PostProps) => {
     try {
       setLoading(true)
-      const post = await addPostService(data)
-      setPosts([post, ...posts])
+      await addPostService(data)
+      loadData()
     } catch (error) {
       console.log(error)
     } finally {
@@ -69,30 +69,15 @@ export const PostProvider = ({ children }: PostProviderProps) => {
     }
   }
 
-  const addComment = async (postId: string, comment: string) => {
-    console.log('Comment')
-    // try {
-    //   const result = posts.map(post => {
-    //     if (post.id === postId) {
-    //       if (post.comments) {
-    //         return {
-    //           ...post,
-    //           comments: [...post.comments, { nickname: post.nickname, comment }]
-    //         }
-    //       } else {
-    //         return {
-    //           ...post,
-    //           comments: [{ nickname: post.nickname, comment }]
-    //         }
-    //       }
-    //     }
-    //     return post
-    //   })
-
-    //   setPosts(result)
-    // } catch (error) {
-    //   console.log(error)
-    // }
+  const addComment = async (comment: string, postId: string | undefined) => {
+    await addCommentService({
+      data: {
+        nickname: user?.name,
+        comment
+      },
+      postId
+    })
+    loadData()
   }
 
   return (

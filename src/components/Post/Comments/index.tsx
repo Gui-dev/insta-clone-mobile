@@ -3,8 +3,8 @@ import React from 'react'
 import { Container, Content, Nickname, Comment } from './style'
 
 type CommentAttributes = {
-  nickname: string
-  comments: Array<string>
+  nickname: string | undefined
+  comment: string | undefined
 }
 
 type CommentsProps = {
@@ -18,7 +18,7 @@ export const Comments = ({ comments }: CommentsProps) => {
         return (
           <Content key={ String(index) }>
             <Nickname>{comment.nickname}: </Nickname>
-            <Comment>{comment.comments}</Comment>
+            <Comment>{comment.comment}</Comment>
           </Content>
         )
       }) }
