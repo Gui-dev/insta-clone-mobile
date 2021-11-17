@@ -5,8 +5,8 @@ import { Gravatar } from 'react-native-gravatar'
 import { Container, Nickname } from './style'
 
 type User = {
-  email: string
-  name: string
+  email: string | undefined
+  name: string | undefined
 }
 
 type AuthorProps = {
