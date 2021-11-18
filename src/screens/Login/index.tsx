@@ -32,6 +32,7 @@ export const Login: React.FC = () => {
         <Input
           placeholder="E-mail"
           autoFocus
+          autoCapitalize="none"
           keyboardType="email-address"
           value={ email }
           onChangeText={ setEmail }
@@ -39,6 +40,7 @@ export const Login: React.FC = () => {
         <Input
           placeholder="Senha"
           secureTextEntry={ true }
+          autoCapitalize="none"
           value={ password }
           onChangeText={ setPassword }
         />
