@@ -1,5 +1,6 @@
 import React from 'react'
 import { FlatList } from 'react-native'
+import Toast from 'react-native-toast-message'
 
 import { Author } from './Author'
 import { Comments } from './Comments'
@@ -13,6 +14,14 @@ export const Post = () => {
   const { addComment, loading, posts } = usePost()
 
   const handleAddComment = async (comment: string, postId: string) => {
+    if (comment === '') {
+      Toast.show({
+        type: 'info',
+        text1: 'Oooops',
+        text2: 'Você precisa escrever um comentário primeiro'
+      })
+      return
+    }
     await addComment(comment, postId)
   }
 
