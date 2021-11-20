@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import Toast from 'react-native-toast-message'
 
 import { RootStackParamList } from './../../routes/stack.routes'
 
@@ -20,6 +21,15 @@ export const Register: React.FC = () => {
   const [password, setPassword] = useState('')
 
   const handleRegister = async () => {
+    if (name === '' || nickname === '' || email === '' || password === '') {
+      Toast.show({
+        type: 'info',
+        text1: 'Oooops',
+        text2: 'Preencha todos os campos'
+      })
+      return
+    }
+
     const data = {
       name,
       nickname,
