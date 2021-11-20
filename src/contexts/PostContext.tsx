@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { addCommentService } from '../services/addCommentService'
+import Toast from 'react-native-toast-message'
 
 import { addPostService } from '../services/addPostService'
 import { listPostsService } from '../services/listPostsService'
@@ -61,9 +62,17 @@ export const PostProvider = ({ children }: PostProviderProps) => {
     try {
       setLoading(true)
       await addPostService(data)
+      Toast.show({
+        type: 'success',
+        text1: 'Post criado com sucesso'
+      })
       loadData()
     } catch (error) {
-      console.log(error)
+      Toast.show({
+        type: 'error',
+        text1: 'Oooooops',
+        text2: 'Algo deu errado'
+      })
     } finally {
       setLoading(false)
     }
