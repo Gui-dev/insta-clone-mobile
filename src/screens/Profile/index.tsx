@@ -1,12 +1,15 @@
 import React from 'react'
 // @ts-ignore
 import { Gravatar } from 'react-native-gravatar'
+import { useAuth } from '../../hooks/useAuth'
 
 import { Container, Nickname, Email, ButtonLogout, ButtonLogoutText } from './style'
 
 export const Profile: React.FC = () => {
+  const { logout } = useAuth()
+
   const handleLogout = () => {
-    console.log('Logout')
+    logout()
   }
 
   return (
