@@ -68,10 +68,11 @@ export const PostProvider = ({ children }: PostProviderProps) => {
       })
       loadData()
     } catch (error) {
+      const err = error as Error
       Toast.show({
         type: 'error',
         text1: 'Oooooops',
-        text2: 'Algo deu errado'
+        text2: err.message
       })
     } finally {
       setLoading(false)
@@ -79,14 +80,23 @@ export const PostProvider = ({ children }: PostProviderProps) => {
   }
 
   const addComment = async (comment: string, postId: string | undefined) => {
-    await addCommentService({
-      data: {
-        nickname: user?.name,
-        comment
-      },
-      postId
-    })
-    loadData()
+    try {
+      await addCommentService({
+        data: {
+          nickname: user?.name,
+          comment
+        },
+        postId
+      })
+      loadData()
+    } catch (error) {
+      const err = error as Error
+      Toast.show({
+        type: 'error',
+        text1: 'Oooooops',
+        text2: err.message
+      })
+    }
   }
 
   return (
