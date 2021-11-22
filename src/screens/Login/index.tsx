@@ -9,6 +9,7 @@ import {
   Container, Form, Input, ButtonLogin, ButtonLoginText,
   ButtonRegister, ButtonRegisterText
 } from './style'
+import { LoadPage } from '../../components/LoadPage'
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList, 'Login'>
 
@@ -16,7 +17,7 @@ export const Login: React.FC = () => {
   const { navigate } = useNavigation<NavigationProps>()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { login } = useAuth()
+  const { loading, login } = useAuth()
 
   const handleLogin = () => {
     login({ email, password })
@@ -24,6 +25,10 @@ export const Login: React.FC = () => {
 
   const handleNavigationToRegister = () => {
     navigate('Register')
+  }
+
+  if (loading) {
+    return <LoadPage />
   }
 
   return (
