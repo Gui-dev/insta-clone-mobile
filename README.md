@@ -7,17 +7,17 @@ utilizando o <strong>Realtime database</strong>, <strong>firebase storage</stron
 </p>
 
 <p align="left">
-  <img src="./screens/login.png"/>
+  <img src="./screens/login.png" width="19%"/>
   &nbsp; &nbsp;
-  <img src="./screens/register.png"/>
+  <img src="./screens/register.png" width="19%"/>
   &nbsp; &nbsp;
-  <img src="./screens/pickimage.png"/>
+  <img src="./screens/pickimage.png" width="19%"/>
   &nbsp; &nbsp;
-  <img src="./screens/image-selected.png"/>
+  <img src="./screens/image-selected.png" width="19%"/>
   &nbsp; &nbsp;
-  <img src="./screens/feed.png"/>
+  <img src="./screens/feed.png" width="19%"/>
   &nbsp; &nbsp;
-  <img src="./screens/logout.png"/>
+  <img src="./screens/logout.png" width="19%"/>
 </p>
 
 ## Technologies used
