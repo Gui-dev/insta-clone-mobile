@@ -6,7 +6,7 @@ utilizando o <strong>Realtime database</strong>, <strong>firebase storage</stron
 <strong>firebase authentication</strong> :)
 </p>
 
-<p  align="left">
+<p align="left">
   <img src="./screens/login.png"/>
   &nbsp; &nbsp;
   <img src="./screens/register.png"/>
